@@ -1,6 +1,6 @@
 ## Hi there 👋
 <p align="center">
-  <img src="https://capsule-render.vercel.app/api?type=rounded&height=300&color=00A8E7&text=Ashley%20Esau-nl-Data%20Professional&fontColor=FFFFFF" width="75%" />
+  <img src="https://capsule-render.vercel.app/api?type=rounded&height=300&color=00A8E7&text=Ashley%20Esau-nl-Data%20Professional&fontColor=FFFFFF" width="50%" />
 </p>
 
 

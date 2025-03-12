@@ -1,7 +1,8 @@
 ## Hi there 👋
 <p align="center">
-  <img src="https://capsule-render.vercel.app/api?type=rounded&height=300&color=00A8E7&text=Ashley%20Esau-nl-Data%20Professional&fontColor=FFFFFF" />
+  <img src="https://capsule-render.vercel.app/api?type=rounded&height=300&color=00A8E7&text=Ashley%20Esau-nl-Data%20Professional&fontColor=FFFFFF" width="75%" />
 </p>
+
 
 
 **Ashley-Esau/Ashley-Esau** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.

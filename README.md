@@ -11,7 +11,7 @@ Hi, I'm **Ashley Esau** — a curious and grounded data professional passionate 
 - I transitioned from scripting surveys and cleaning data in market research to diving deep into **data engineering**.
 - I'm focused on **building strong technical foundations** in data modeling, distributed systems, and analytics tooling.
 - I value **craftsmanship** — mastering the tools I use and developing original style rather than just copying tutorials.
-- I’m driven by the desire for **independence, creativity, and clarity** in my work — building systems that last and that feel purposeful.
+- I absolutely love **teamwork** and the **community** of working with other business professionals to drive an organization forward.
 
 ---
 

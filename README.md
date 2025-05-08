@@ -15,7 +15,7 @@ Hi, I'm **Ashley Esau** — a curious and grounded data professional passionate 
 
 ---
 
-### 🛠️ Tools & Technologies I Use
+### Tools & Technologies I Use
 
 <p align="left">
   <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/python/python-original.svg" width="45" height="45"/>
@@ -28,11 +28,26 @@ Hi, I'm **Ashley Esau** — a curious and grounded data professional passionate 
 
 ---
 
-### 🔬 Areas I'm Focused On
+### Areas I'm Focused On
 
 - **Data Engineering** – building pipelines, orchestrating workflows, and handling messy data at scale  
 - **Analytics Engineering** – modeling clean, intuitive datasets for downstream users with tools like dbt  
 - **Fintech** – especially infrastructure/data platforms in modern payments and lending companies  
+
+---
+
+### Recent Project: NYC Parking Tickets Data Model
+
+I've been working on a dimensional modeling project using **NYC Parking Tickets** data to sharpen my data engineering skills and apply dbt in a practical context.
+
+**GitHub**: [ashleyesau/parking_tickets](https://github.com/ashleyesau/parking_tickets)
+
+- Designed a **star schema** with a central fact table and four dimension tables: `date`, `vehicle`, `officer`, and `violation`
+- Implemented the model using **dbt**, focusing on clarity, reusability, and performance
+- Wrote tests and documentation to support data quality and downstream usability
+- Learned to navigate messy real-world datasets and make design decisions that balance flexibility with simplicity
+
+This project is a reflection of my core values: **clean architecture, intentional design, and practical craftsmanship.**
 
 ---
 

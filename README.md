@@ -8,7 +8,7 @@
 
 Hi, I am **Ashley Esau**, a data professional who builds production-style data systems.
 
-I started in market research data processing, which taught me early that data quality is not a technical concern — it is a business one. That foundation has shaped everything since.
+I started in market research data processing, which taught me early that data quality is not a technical concern. It is a business one. That foundation has shaped everything since.
 
 From there I grew curious about how larger systems work. How data moves from raw inputs to decisions. How companies like Netflix or Spotify make sense of the behaviour happening inside their products. How the infrastructure underneath an analytics layer actually gets built. Each project I take on starts with a question I cannot shake, and ends with a system I understand deeply.
 
@@ -76,9 +76,9 @@ Raw CSV → Staging in dbt → Grain Conflict Resolution → Mart Layer → Inte
 ### Key Findings
 
 - Accounts using 10 or more distinct features in 90 days have near-zero churn. Below that threshold, churn is flat at 8-12% regardless of tier or volume.
-- 435 medium-risk accounts hold $1.6M MRR — the highest-leverage Customer Success intervention target.
+- 435 medium-risk accounts hold $1.6M MRR, the highest-leverage Customer Success intervention target.
 - Partner is the highest-LTV acquisition channel despite having the smallest volume.
-- 19.2% of all churn events follow an upgrade — overcommit and unmet expectations are the dominant exit pattern.
+- 19.2% of all churn events follow an upgrade. Overcommit and unmet expectations are the dominant exit pattern.
 
 This project demonstrates what it takes to build the foundation that makes subscription analytics honest, not just possible.
 

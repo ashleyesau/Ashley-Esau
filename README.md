@@ -42,8 +42,9 @@ I care about:
 
 ## 1️⃣ SaaS Analytics Warehouse
 
-🔗 **Repository:** https://github.com/ashleyesau/saas_modeling
-📊 **Live Dashboard:** https://saasmodeling-klogjaq7u6jsgczkzsdtwp.streamlit.app/
+**Repository:** https://github.com/ashleyesau/saas_modeling
+
+ **Live Dashboard:** https://saasmodeling-klogjaq7u6jsgczkzsdtwp.streamlit.app/
 
 A full subscription lifecycle analytics system built with DuckDB, dbt, and Streamlit.
 

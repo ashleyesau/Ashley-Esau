@@ -42,9 +42,8 @@ I care about:
 
 ## 1️⃣ SaaS Analytics Warehouse
 
-**Repository:** https://github.com/ashleyesau/saas_modeling
-
- **Live Dashboard:** https://saasmodeling-klogjaq7u6jsgczkzsdtwp.streamlit.app/
+🔗 **Repository:** <a href="https://github.com/ashleyesau/saas_modeling" target="_blank">github.com/ashleyesau/saas_modeling</a>
+📊 **Live Dashboard:** <a href="https://saasmodeling-klogjaq7u6jsgczkzsdtwp.streamlit.app/" target="_blank">saasmodeling-klogjaq7u6jsgczkzsdtwp.streamlit.app</a>
 
 A full subscription lifecycle analytics system built with DuckDB, dbt, and Streamlit.
 
@@ -86,7 +85,7 @@ This project demonstrates what it takes to build the foundation that makes subsc
 
 ## 2️⃣ Fintech Portfolio Analytics
 
-🔗 **Repository:** https://github.com/ashleyesau/fintech_modeling
+🔗 **Repository:** <a href="https://github.com/ashleyesau/fintech_modeling" target="_blank">github.com/ashleyesau/fintech_modeling</a>
 
 A production-style end-to-end fintech analytics system built with dbt, DuckDB, and Streamlit.
 
@@ -120,7 +119,7 @@ This project mirrors how real fintech data teams structure analytics infrastruct
 
 ## 3️⃣ Retail Data Pipeline with Modern Data Stack
 
-🔗 **Repository:** https://github.com/ashleyesau/airflow_project
+🔗 **Repository:** <a href="https://github.com/ashleyesau/airflow_project" target="_blank">github.com/ashleyesau/airflow_project</a>
 
 A fully orchestrated ELT pipeline processing over 540,000 retail transactions.
 
@@ -155,7 +154,7 @@ This project demonstrates the ability to design and automate complete analytics 
 
 ## 4️⃣ NYC Parking Tickets Dimensional Model
 
-🔗 **Repository:** https://github.com/ashleyesau/parking_tickets
+🔗 **Repository:** <a href="https://github.com/ashleyesau/parking_tickets" target="_blank">github.com/ashleyesau/parking_tickets</a>
 
 A large-scale dimensional modeling project built on 42 million public records using AWS and dbt.
 
@@ -208,8 +207,8 @@ I am particularly interested in fintech and data platform roles where data quali
 
 ## 📬 Connect
 
-LinkedIn: https://linkedin.com/in/ashley-esau
-GitHub: https://github.com/ashleyesau
-Email: ashley.esau@gmail.com
+<a href="https://linkedin.com/in/ashley-esau" target="_blank">LinkedIn</a> |
+<a href="https://github.com/ashleyesau" target="_blank">GitHub</a> |
+<a href="mailto:ashley.esau@gmail.com">ashley.esau@gmail.com</a>
 
 Open to conversations about data engineering, fintech platforms, and building resilient data systems.

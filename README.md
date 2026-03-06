@@ -6,18 +6,20 @@
 
 ## 👋 About Me
 
-Hi, I am **Ashley Esau**, a data professional focused on building reliable, production-style data systems.
+Hi, I am **Ashley Esau**, a data professional who builds production-style data systems.
 
-I started my career in market research data processing, where I learned that data quality directly impacts business decisions. That foundation shaped how I approach engineering today: structured, quality-first, and business-aware.
+I started in market research data processing, which taught me early that data quality is not a technical concern — it is a business one. That foundation has shaped everything since.
 
-Over the past few years, I have transitioned into the modern data stack, building dimensional models, orchestrated pipelines, automated quality frameworks, and interactive analytics layers.
+From there I grew curious about how larger systems work. How data moves from raw inputs to decisions. How companies like Netflix or Spotify make sense of the behaviour happening inside their products. How the infrastructure underneath an analytics layer actually gets built. Each project I take on starts with a question I cannot shake, and ends with a system I understand deeply.
+
+I have worked across retail pipelines, fintech analytics, cloud-scale dimensional models, and subscription economics. The domain changes. The discipline does not.
 
 I care about:
 
-- Clean, scalable data models  
-- Automated validation and testing  
-- Infrastructure that fails loudly instead of silently  
-- Engineering that supports real financial decisions  
+- Clean, scalable data models
+- Automated validation and testing
+- Infrastructure that fails loudly instead of silently
+- Engineering that supports real financial decisions
 
 ---
 
@@ -38,9 +40,52 @@ I care about:
 
 ---
 
-## 1️⃣ Fintech Portfolio Analytics
+## 1️⃣ SaaS Analytics Warehouse
 
-🔗 **Repository:** https://github.com/ashleyesau/fintech_modeling  
+🔗 **Repository:** https://github.com/ashleyesau/saas_modeling
+📊 **Live Dashboard:** https://saasmodeling-klogjaq7u6jsgczkzsdtwp.streamlit.app/
+
+A full subscription lifecycle analytics system built with DuckDB, dbt, and Streamlit.
+
+### Overview
+
+This project models the subscription economics of a fictional SaaS company across a two-year period. It answers the questions that matter most to subscription businesses:
+
+- How is revenue moving, and why?
+- Which accounts are at risk of churning?
+- What signals appear before a customer leaves?
+- Which acquisition channels produce the highest lifetime value?
+- How do cohorts retain over time, by plan tier?
+
+### Architecture
+
+Raw CSV → Staging in dbt → Grain Conflict Resolution → Mart Layer → Interactive Streamlit Dashboard
+
+### Engineering Highlights
+
+- Three-layer dbt architecture: staging, intermediate, and marts
+- Grain conflict resolution across up to 17 subscription rows per account-month, resolved via a deterministic selection rule codified in `int_subscription_month_selected`
+- Full MRR revenue bridge with new, expansion, contraction, churn, and reactivation components
+- 90-day rolling feature breadth window powering a four-segment risk model in `fct_account_health`
+- Cohort retention model with logo retention and NRR by plan tier in `fct_cohort_retention`
+- Pre-churn pattern classification derived from MRR movement signals in `fct_churn`
+- 40 dbt tests across six models, all passing with zero warnings
+- Four-page Streamlit dashboard with custom sidebar navigation, shared utils module, and Plotly charts throughout
+
+### Key Findings
+
+- Accounts using 10 or more distinct features in 90 days have near-zero churn. Below that threshold, churn is flat at 8-12% regardless of tier or volume.
+- 435 medium-risk accounts hold $1.6M MRR — the highest-leverage Customer Success intervention target.
+- Partner is the highest-LTV acquisition channel despite having the smallest volume.
+- 19.2% of all churn events follow an upgrade — overcommit and unmet expectations are the dominant exit pattern.
+
+This project demonstrates what it takes to build the foundation that makes subscription analytics honest, not just possible.
+
+---
+
+## 2️⃣ Fintech Portfolio Analytics
+
+🔗 **Repository:** https://github.com/ashleyesau/fintech_modeling
 
 A production-style end-to-end fintech analytics system built with dbt, DuckDB, and Streamlit.
 
@@ -48,11 +93,11 @@ A production-style end-to-end fintech analytics system built with dbt, DuckDB, a
 
 This project simulates a fintech company managing savings, checking, credit, and investment products. It answers real business questions around:
 
-- Wealth concentration  
-- Customer risk segmentation  
-- Loan-to-income leverage  
-- Balance distribution using decile analysis  
-- Gini coefficient and Lorenz curve modeling  
+- Wealth concentration
+- Customer risk segmentation
+- Loan-to-income leverage
+- Balance distribution using decile analysis
+- Gini coefficient and Lorenz curve modeling
 
 ### Architecture
 
@@ -72,20 +117,20 @@ This project mirrors how real fintech data teams structure analytics infrastruct
 
 ---
 
-## 2️⃣ Retail Data Pipeline with Modern Data Stack
+## 3️⃣ Retail Data Pipeline with Modern Data Stack
 
-🔗 **Repository:** https://github.com/ashleyesau/airflow_project  
+🔗 **Repository:** https://github.com/ashleyesau/airflow_project
 
 A fully orchestrated ELT pipeline processing over 540,000 retail transactions.
 
 ### Stack
 
-- Apache Airflow  
-- Google BigQuery  
-- dbt  
-- Soda Core  
-- Docker  
-- Metabase  
+- Apache Airflow
+- Google BigQuery
+- dbt
+- Soda Core
+- Docker
+- Metabase
 
 ### What I Built
 
@@ -107,18 +152,18 @@ This project demonstrates the ability to design and automate complete analytics 
 
 ---
 
-## 3️⃣ NYC Parking Tickets Dimensional Model
+## 4️⃣ NYC Parking Tickets Dimensional Model
 
-🔗 **Repository:** https://github.com/ashleyesau/parking_tickets  
+🔗 **Repository:** https://github.com/ashleyesau/parking_tickets
 
 A large-scale dimensional modeling project built on 42 million public records using AWS and dbt.
 
 ### Stack
 
-- AWS S3  
-- AWS Glue  
-- Redshift  
-- dbt  
+- AWS S3
+- AWS Glue
+- Redshift
+- dbt
 
 ### What I Built
 
@@ -150,11 +195,11 @@ This was my foundational engineering project where I learned to think structural
 
 I believe in:
 
-- Designing with intention  
-- Making assumptions explicit  
-- Automating validation  
-- Documenting trade-offs  
-- Building systems that are durable  
+- Designing with intention
+- Making assumptions explicit
+- Automating validation
+- Documenting trade-offs
+- Building systems that are durable
 
 I am particularly interested in fintech and data platform roles where data quality directly impacts financial decisions.
 
@@ -162,8 +207,8 @@ I am particularly interested in fintech and data platform roles where data quali
 
 ## 📬 Connect
 
-LinkedIn: https://linkedin.com/in/ashley-esau  
-GitHub: https://github.com/ashleyesau  
-Email: ashley.esau@gmail.com  
+LinkedIn: https://linkedin.com/in/ashley-esau
+GitHub: https://github.com/ashleyesau
+Email: ashley.esau@gmail.com
 
 Open to conversations about data engineering, fintech platforms, and building resilient data systems.

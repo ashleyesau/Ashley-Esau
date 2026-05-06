@@ -257,7 +257,7 @@ This was my foundational engineering project where I learned to think structural
 
 ## Engineering Philosophy
 
-I am drawn to working on the systems others can depend on without thinking about them. When the infrastructure works, it is invisible — analysts explore trends instead of fixing broken joins, dashboards are trusted instead of questioned, decisions get made on time. The only moment infrastructure gets attention is when it breaks. That is the responsibility I have learned to embrace: building systems so reliable that part of their success is measured by how invisible they remain.
+I am drawn to working on the systems others can depend on without thinking about them. When the infrastructure works, it is invisible - analysts explore trends instead of fixing broken joins, dashboards are trusted instead of questioned, decisions get made on time. The only moment infrastructure gets attention is when it breaks. That is the responsibility I have learned to embrace: building systems so reliable that part of their success is measured by how invisible they remain.
 
 I believe in:
 

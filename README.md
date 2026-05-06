@@ -4,7 +4,7 @@
 
 ---
 
-## 👋 About Me
+## About Me
 
 Hi, I am **Ashley Esau**, a data professional who builds production-style data systems.
 
@@ -23,24 +23,49 @@ I care about:
 
 ---
 
-## 🛠 Core Stack
+## Core Stack
 
-- SQL for advanced transformations and dimensional modeling
-- dbt for semantic modeling, testing, and documentation
-- Apache Airflow for orchestration and DAG design
-- DuckDB, BigQuery, and Postgres
+**Languages**
 - Python
+- SQL
+
+**Transformation**
+- dbt Core (DuckDB and BigQuery adapters)
+- dbt-utils
+
+**Warehouses and Databases**
+- DuckDB
+- Google BigQuery
+- AWS Redshift
+- AWS Athena
+
+**Orchestration**
+- Apache Airflow
+
+**Data Quality**
+- Soda Core
+
+**Cloud Infrastructure**
+- AWS (S3, Glue, Athena, Redshift)
+- Google Cloud (BigQuery, Cloud Storage)
+
+**Dashboarding and Visualisation**
+- Streamlit
+- Plotly
+- Looker Studio
+- Metabase
+
+**Other**
 - Docker
 - Git
-- Soda Core for automated data quality checks
 
 ---
 
-# 🚀 Featured Projects
+# Featured Projects
 
 ---
 
-## 1️⃣ SaaS Analytics Warehouse
+## 1. SaaS Analytics Warehouse
 
 **Repository:** <a href="https://github.com/ashleyesau/saas_modeling" target="_blank">github.com/ashleyesau/saas_modeling</a>
 
@@ -84,9 +109,53 @@ This project demonstrates what it takes to build the foundation that makes subsc
 
 ---
 
-## 2️⃣ Fintech Portfolio Analytics
+## 2. Marketing Analytics Warehouse
 
-🔗 **Repository:** <a href="https://github.com/ashleyesau/fintech_modeling" target="_blank">github.com/ashleyesau/fintech_modeling</a>
+**Repository:** <a href="https://github.com/ashleyesau/marketing_analysis" target="_blank">github.com/ashleyesau/marketing_analysis</a>
+
+**Live Dashboard:** <a href="https://marketinganalysis-nxmm6e4ytzj8mxcfjxkm5f.streamlit.app/" target="_blank">marketinganalysis-nxmm6e4ytzj8mxcfjxkm5f.streamlit.app</a>
+
+An end-to-end analytics engineering project modeling customer segmentation, funnel analysis, product performance, and cohort retention on a synthetic e-commerce dataset of 2 million events.
+
+### Overview
+
+This project was built to close the gap between knowing how dbt works and demonstrating that you can build a production-quality layered pipeline — one where data quality issues surface mid-project, modeling decisions compound across layers, and a metric that looks correct can be silently wrong.
+
+It answers real business questions around:
+
+- Which traffic sources convert, and by how much?
+- How do customer cohorts retain over time?
+- Which products and categories drive revenue?
+- What does campaign attribution actually look like when the data is messy?
+- What do A/B experiment results tell us about purchase behaviour?
+
+### Architecture
+
+Raw CSVs → dbt seed → Staging → Intermediate → Mart Layer → Five-page Streamlit Dashboard
+
+### Engineering Highlights
+
+- Three-layer dbt pipeline across five source tables: customers, transactions, events, products, and campaigns
+- 10,449 null-revenue transactions excluded after EDA confirmed they were unresolvable at source — not silently dropped, but documented
+- Funnel analysis page replaced after identifying a synthetic data artifact producing near-identical counts across all segment dimensions — the events table variance became the foundation instead
+- Column naming conflict between customer acquisition channel and session-level traffic source resolved explicitly rather than papered over
+- Ten mart models covering dimensions and pre-aggregated fact tables consumed directly by the dashboard
+- Five-page Streamlit dashboard covering customer segmentation, traffic and conversion, product performance, campaign attribution, and A/B experiment results
+
+### Key Findings
+
+- Email converts at 9.8% and paid search at 9.3%, roughly four times the rate of organic and direct traffic at 2.3%
+- Variant B in the A/B experiment reaches a 12.2% purchase rate versus 9.0% for control
+- Electronics leads revenue at $3.55M, with a consistent November and December spike every year
+- 36% of customers have tracked events but have never completed a transaction
+
+---
+
+## 3. Fintech Portfolio Analytics
+
+**Repository:** <a href="https://github.com/ashleyesau/fintech_modeling" target="_blank">github.com/ashleyesau/fintech_modeling</a>
+
+**Live Dashboard:** <a href="https://fintechmodeling-pybu29dx7xvnq3um9fjmnu.streamlit.app/" target="_blank">fintechmodeling-pybu29dx7xvnq3um9fjmnu.streamlit.app</a>
 
 A production-style end-to-end fintech analytics system built with dbt, DuckDB, and Streamlit.
 
@@ -118,9 +187,9 @@ This project mirrors how real fintech data teams structure analytics infrastruct
 
 ---
 
-## 3️⃣ Retail Data Pipeline with Modern Data Stack
+## 4. Retail Data Pipeline with Modern Data Stack
 
-🔗 **Repository:** <a href="https://github.com/ashleyesau/airflow_project" target="_blank">github.com/ashleyesau/airflow_project</a>
+**Repository:** <a href="https://github.com/ashleyesau/airflow_project" target="_blank">github.com/ashleyesau/airflow_project</a>
 
 A fully orchestrated ELT pipeline processing over 540,000 retail transactions.
 
@@ -153,9 +222,9 @@ This project demonstrates the ability to design and automate complete analytics 
 
 ---
 
-## 4️⃣ NYC Parking Tickets Dimensional Model
+## 5. NYC Parking Tickets Dimensional Model
 
-🔗 **Repository:** <a href="https://github.com/ashleyesau/parking_tickets" target="_blank">github.com/ashleyesau/parking_tickets</a>
+**Repository:** <a href="https://github.com/ashleyesau/parking_tickets" target="_blank">github.com/ashleyesau/parking_tickets</a>
 
 A large-scale dimensional modeling project built on 42 million public records using AWS and dbt.
 
@@ -163,19 +232,15 @@ A large-scale dimensional modeling project built on 42 million public records us
 
 - AWS S3
 - AWS Glue
-- Redshift
+- AWS Athena
+- AWS Redshift
 - dbt
 
 ### What I Built
 
 - Reduced and validated the raw dataset
 - Transparent invalid record tracking instead of silent deletion
-- Star schema with:
-  - `fact_tickets`
-  - `dim_date`
-  - `dim_vehicle`
-  - `dim_violation`
-  - `dim_officer`
+- Star schema with `fact_tickets`, `dim_date`, `dim_vehicle`, `dim_violation`, and `dim_officer`
 - Data validation queries for duplicates, date inconsistencies, and anomalies
 - Structured modeling optimized for scalable analytics
 
@@ -190,9 +255,9 @@ This was my foundational engineering project where I learned to think structural
 
 ---
 
-## 🧠 Engineering Philosophy
+## Engineering Philosophy
 
-"Good data engineering is quiet infrastructure. When it works, nobody notices, but everything depends on it."
+I am drawn to working on the systems others can depend on without thinking about them. When the infrastructure works, it is invisible — analysts explore trends instead of fixing broken joins, dashboards are trusted instead of questioned, decisions get made on time. The only moment infrastructure gets attention is when it breaks. That is the responsibility I have learned to embrace: building systems so reliable that part of their success is measured by how invisible they remain.
 
 I believe in:
 
@@ -206,7 +271,7 @@ I am particularly interested in fintech and data platform roles where data quali
 
 ---
 
-## 📬 Connect
+## Connect
 
 <a href="https://linkedin.com/in/ashley-esau" target="_blank">LinkedIn</a> |
 <a href="https://github.com/ashleyesau" target="_blank">GitHub</a> |

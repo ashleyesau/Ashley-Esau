@@ -109,49 +109,7 @@ This project demonstrates what it takes to build the foundation that makes subsc
 
 ---
 
-## 2. Marketing Analytics Warehouse
-
-**Repository:** <a href="https://github.com/ashleyesau/marketing_analysis" target="_blank">github.com/ashleyesau/marketing_analysis</a>
-
-**Live Dashboard:** <a href="https://marketinganalysis-nxmm6e4ytzj8mxcfjxkm5f.streamlit.app/" target="_blank">marketinganalysis-nxmm6e4ytzj8mxcfjxkm5f.streamlit.app</a>
-
-An end-to-end analytics engineering project modeling customer segmentation, funnel analysis, product performance, and cohort retention on a synthetic e-commerce dataset of 2 million events.
-
-### Overview
-
-This project was built to close the gap between knowing how dbt works and demonstrating that you can build a production-quality layered pipeline — one where data quality issues surface mid-project, modeling decisions compound across layers, and a metric that looks correct can be silently wrong.
-
-It answers real business questions around:
-
-- Which traffic sources convert, and by how much?
-- How do customer cohorts retain over time?
-- Which products and categories drive revenue?
-- What does campaign attribution actually look like when the data is messy?
-- What do A/B experiment results tell us about purchase behaviour?
-
-### Architecture
-
-Raw CSVs → dbt seed → Staging → Intermediate → Mart Layer → Five-page Streamlit Dashboard
-
-### Engineering Highlights
-
-- Three-layer dbt pipeline across five source tables: customers, transactions, events, products, and campaigns
-- 10,449 null-revenue transactions excluded after EDA confirmed they were unresolvable at source — not silently dropped, but documented
-- Funnel analysis page replaced after identifying a synthetic data artifact producing near-identical counts across all segment dimensions — the events table variance became the foundation instead
-- Column naming conflict between customer acquisition channel and session-level traffic source resolved explicitly rather than papered over
-- Ten mart models covering dimensions and pre-aggregated fact tables consumed directly by the dashboard
-- Five-page Streamlit dashboard covering customer segmentation, traffic and conversion, product performance, campaign attribution, and A/B experiment results
-
-### Key Findings
-
-- Email converts at 9.8% and paid search at 9.3%, roughly four times the rate of organic and direct traffic at 2.3%
-- Variant B in the A/B experiment reaches a 12.2% purchase rate versus 9.0% for control
-- Electronics leads revenue at $3.55M, with a consistent November and December spike every year
-- 36% of customers have tracked events but have never completed a transaction
-
----
-
-## 3. Fintech Behavioral Analytics Platform
+## 2. Fintech Behavioral Analytics Platform
 
 **Repository:** <a href="https://github.com/ashleyesau/fintech-behavioral-analytics" target="_blank">github.com/ashleyesau/fintech-behavioral-analytics</a>
 
@@ -159,9 +117,9 @@ A full-stack analytics engineering project simulating the internal data platform
 
 ### Overview
 
-The project was built around a question I kept returning to while working through the modern data stack: what does it actually look like when all of these pieces connect — not in a tutorial where the data is already clean, but in practice, where things break in ways you did not anticipate and the debugging teaches you more than the building did.
+The project was built around a question I kept returning to while working through the modern data stack: what does it actually look like when all of these pieces connect? Not in a tutorial where the data is already clean, but in practice, where things break in ways you did not anticipate and the debugging teaches you more than the building did.
 
-The platform tracks customer financial health across two institutions and surfaces behavioral risk signals in transaction data. The analytical output lives in `mart_risk_signals`, which identifies customers combining high merchant concentration (top three merchants exceeding 60% of spend) with two or more consecutive months of negative net cash flow — the highest-priority intervention targets for a risk team.
+The platform tracks customer financial health across two institutions and surfaces behavioral risk signals in transaction data. The analytical output lives in `mart_risk_signals`, which identifies customers combining high merchant concentration (top three merchants exceeding 60% of spend) with two or more consecutive months of negative net cash flow. These are the highest-priority intervention targets for a risk team.
 
 ### Architecture
 
@@ -202,15 +160,15 @@ Each layer reads only from the layer directly above it. When something breaks, y
 
 ### Engineering Highlights
 
-- Cursor-based sync via `/transactions/sync` rather than the deprecated date-based endpoint — cursor advances only after a successful GCS write, guaranteeing no silent transaction loss on write failures
-- Two-institution design: Institution A (control, real Plaid Sandbox data) and Institution B (synthetic seed with engineered behavioral contrast: irregular income, high merchant concentration, recurring negative cashflow) — a deliberate design decision to produce analytically meaningful risk signal
+- Cursor-based sync via `/transactions/sync` rather than the deprecated date-based endpoint. The cursor advances only after a successful GCS write, guaranteeing no silent transaction loss on write failures.
+- Two-institution design: Institution A (control, real Plaid Sandbox data) and Institution B (synthetic seed with engineered behavioral contrast: irregular income, high merchant concentration, recurring negative cashflow. This was a deliberate design decision to produce analytically meaningful risk signal.
 - Cross-join spine pattern in `int_account_monthly_cashflow` to preserve zero-transaction months, making consecutive cashflow streak calculations correct rather than misleading
 - Gaps-and-islands pattern in `int_customer_risk_signals` for maximum consecutive negative cashflow streak per account
 - Merchant concentration ratio derived from top three merchants by debit spend, combined with cashflow streak into a single `combined_risk_flag`
 - Four mart models serving distinct stakeholder perspectives: risk team, finance team, product team, and data team
 - 81 dbt tests across 10 models covering uniqueness, not-null constraints, accepted values, and custom business logic
 - 7-task Airflow DAG with a quality gate between staging and intermediate: staging tests must pass before any intermediate model runs
-- LocalExecutor selected over CeleryExecutor after CeleryExecutor's six-container stack exceeded 4GB RAM and killed tasks under memory pressure — a real infrastructure constraint with a real solution
+- LocalExecutor selected over CeleryExecutor after CeleryExecutor's six-container stack exceeded 4GB RAM and killed tasks under memory pressure. A real infrastructure constraint with a real solution.
 
 ### Data Quality Bugs Found and Fixed
 
@@ -220,7 +178,49 @@ Three silent data loss bugs were discovered during the build, none of them obvio
 
 **The pending filter bug.** Plaid Sandbox returns `pending = NULL` for one institution rather than explicit `false`. A naive `WHERE pending = false` filter silently excluded every institution A transaction because `NULL = false` evaluates to NULL, not true. Fix: `WHERE COALESCE(pending, false) = false`.
 
-**The name collision bug.** A CTE named `merchant_spend` contained a column also named `merchant_spend`. When a downstream CTE referenced `ORDER BY merchant_spend`, BigQuery resolved the name to the CTE itself — a STRUCT — and rejected the sort. The error message pointed at the expression type, not the naming collision. Fix: rename CTE to `merchant_spend_by_name`, column to `spend_amount`. Now a documented project convention.
+**The name collision bug.** A CTE named `merchant_spend` contained a column also named `merchant_spend`. When a downstream CTE referenced `ORDER BY merchant_spend`, BigQuery resolved the name to the CTE itself (a STRUCT) and rejected the sort. The error message pointed at the expression type, not the naming collision. Fix: rename CTE to `merchant_spend_by_name`, column to `spend_amount`. Now a documented project convention.
+
+---
+
+## 3. Marketing Analytics Warehouse
+
+**Repository:** <a href="https://github.com/ashleyesau/marketing_analysis" target="_blank">github.com/ashleyesau/marketing_analysis</a>
+
+**Live Dashboard:** <a href="https://marketinganalysis-nxmm6e4ytzj8mxcfjxkm5f.streamlit.app/" target="_blank">marketinganalysis-nxmm6e4ytzj8mxcfjxkm5f.streamlit.app</a>
+
+An end-to-end analytics engineering project modeling customer segmentation, funnel analysis, product performance, and cohort retention on a synthetic e-commerce dataset of 2 million events.
+
+### Overview
+
+This project was built to close the gap between knowing how dbt works and demonstrating that you can build a production-quality layered pipeline: one where data quality issues surface mid-project, modeling decisions compound across layers, and a metric that looks correct can be silently wrong.
+
+It answers real business questions around:
+
+- Which traffic sources convert, and by how much?
+- How do customer cohorts retain over time?
+- Which products and categories drive revenue?
+- What does campaign attribution actually look like when the data is messy?
+- What do A/B experiment results tell us about purchase behaviour?
+
+### Architecture
+
+Raw CSVs → dbt seed → Staging → Intermediate → Mart Layer → Five-page Streamlit Dashboard
+
+### Engineering Highlights
+
+- Three-layer dbt pipeline across five source tables: customers, transactions, events, products, and campaigns
+- 10,449 null-revenue transactions excluded after EDA confirmed they were unresolvable at source. Not silently dropped, but documented.
+- Funnel analysis page replaced after identifying a synthetic data artifact producing near-identical counts across all segment dimensions. The events table variance became the foundation instead.
+- Column naming conflict between customer acquisition channel and session-level traffic source resolved explicitly rather than papered over
+- Ten mart models covering dimensions and pre-aggregated fact tables consumed directly by the dashboard
+- Five-page Streamlit dashboard covering customer segmentation, traffic and conversion, product performance, campaign attribution, and A/B experiment results
+
+### Key Findings
+
+- Email converts at 9.8% and paid search at 9.3%, roughly four times the rate of organic and direct traffic at 2.3%
+- Variant B in the A/B experiment reaches a 12.2% purchase rate versus 9.0% for control
+- Electronics leads revenue at $3.55M, with a consistent November and December spike every year
+- 36% of customers have tracked events but have never completed a transaction
 
 ---
 

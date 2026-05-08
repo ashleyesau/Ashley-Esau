@@ -151,7 +151,80 @@ Raw CSVs → dbt seed → Staging → Intermediate → Mart Layer → Five-page 
 
 ---
 
-## 3. Fintech Portfolio Analytics
+## 3. Fintech Behavioral Analytics Platform
+
+**Repository:** <a href="https://github.com/ashleyesau/fintech-behavioral-analytics" target="_blank">github.com/ashleyesau/fintech-behavioral-analytics</a>
+
+A full-stack analytics engineering project simulating the internal data platform of a fintech company. It covers the entire pipeline: live API ingestion from the Plaid Sandbox, cloud storage on GCS, BigQuery warehousing, a ten-model layered dbt transformation architecture, 81 automated tests, and daily orchestration via Apache Airflow running in Docker.
+
+### Overview
+
+The project was built around a question I kept returning to while working through the modern data stack: what does it actually look like when all of these pieces connect — not in a tutorial where the data is already clean, but in practice, where things break in ways you did not anticipate and the debugging teaches you more than the building did.
+
+The platform tracks customer financial health across two institutions and surfaces behavioral risk signals in transaction data. The analytical output lives in `mart_risk_signals`, which identifies customers combining high merchant concentration (top three merchants exceeding 60% of spend) with two or more consecutive months of negative net cash flow — the highest-priority intervention targets for a risk team.
+
+### Architecture
+
+```
+Plaid Sandbox API (2 institutions)
+        |
+Python Extraction Layer
+(cursor-based sync, retry logic, GCS write)
+        |
+Google Cloud Storage
+(partitioned by institution + date, immutable raw JSON)
+        |
+BigQuery Raw Tables (Bronze)
+        |
+dbt Staging Models (Silver)
+        |
+dbt Intermediate Models
+        |
+dbt Mart Models (Gold)
+        |
+Apache Airflow DAG
+(daily orchestration with quality gates between layers)
+```
+
+Each layer reads only from the layer directly above it. When something breaks, you know exactly which layer owns the problem.
+
+### Stack
+
+| Layer | Technology |
+| --- | --- |
+| API Source | Plaid Sandbox API |
+| Extraction | Python 3.13 |
+| Raw Storage | Google Cloud Storage (partitioned by institution + date) |
+| Data Warehouse | BigQuery (us-central1) |
+| Transformations | dbt Core (BigQuery adapter) |
+| Orchestration | Apache Airflow 2.9.1 (LocalExecutor) |
+| Container Runtime | Docker Compose |
+
+### Engineering Highlights
+
+- Cursor-based sync via `/transactions/sync` rather than the deprecated date-based endpoint — cursor advances only after a successful GCS write, guaranteeing no silent transaction loss on write failures
+- Two-institution design: Institution A (control, real Plaid Sandbox data) and Institution B (synthetic seed with engineered behavioral contrast: irregular income, high merchant concentration, recurring negative cashflow) — a deliberate design decision to produce analytically meaningful risk signal
+- Cross-join spine pattern in `int_account_monthly_cashflow` to preserve zero-transaction months, making consecutive cashflow streak calculations correct rather than misleading
+- Gaps-and-islands pattern in `int_customer_risk_signals` for maximum consecutive negative cashflow streak per account
+- Merchant concentration ratio derived from top three merchants by debit spend, combined with cashflow streak into a single `combined_risk_flag`
+- Four mart models serving distinct stakeholder perspectives: risk team, finance team, product team, and data team
+- 81 dbt tests across 10 models covering uniqueness, not-null constraints, accepted values, and custom business logic
+- 7-task Airflow DAG with a quality gate between staging and intermediate: staging tests must pass before any intermediate model runs
+- LocalExecutor selected over CeleryExecutor after CeleryExecutor's six-container stack exceeded 4GB RAM and killed tasks under memory pressure — a real infrastructure constraint with a real solution
+
+### Data Quality Bugs Found and Fixed
+
+Three silent data loss bugs were discovered during the build, none of them obvious.
+
+**The load loop bug.** The BigQuery loader used `WRITE_TRUNCATE` on date partitions with institutions as the outer loop. Institution B's data overwrote institution A's on every write. The entire first institution was absent from every downstream model. Fix: swap loop order so all institutions for a given data type are written in a single operation.
+
+**The pending filter bug.** Plaid Sandbox returns `pending = NULL` for one institution rather than explicit `false`. A naive `WHERE pending = false` filter silently excluded every institution A transaction because `NULL = false` evaluates to NULL, not true. Fix: `WHERE COALESCE(pending, false) = false`.
+
+**The name collision bug.** A CTE named `merchant_spend` contained a column also named `merchant_spend`. When a downstream CTE referenced `ORDER BY merchant_spend`, BigQuery resolved the name to the CTE itself — a STRUCT — and rejected the sort. The error message pointed at the expression type, not the naming collision. Fix: rename CTE to `merchant_spend_by_name`, column to `spend_amount`. Now a documented project convention.
+
+---
+
+## 4. Fintech Portfolio Analytics
 
 **Repository:** <a href="https://github.com/ashleyesau/fintech_modeling" target="_blank">github.com/ashleyesau/fintech_modeling</a>
 
@@ -187,7 +260,7 @@ This project mirrors how real fintech data teams structure analytics infrastruct
 
 ---
 
-## 4. Retail Data Pipeline with Modern Data Stack
+## 5. Retail Data Pipeline with Modern Data Stack
 
 **Repository:** <a href="https://github.com/ashleyesau/airflow_project" target="_blank">github.com/ashleyesau/airflow_project</a>
 
@@ -222,7 +295,7 @@ This project demonstrates the ability to design and automate complete analytics 
 
 ---
 
-## 5. NYC Parking Tickets Dimensional Model
+## 6. NYC Parking Tickets Dimensional Model
 
 **Repository:** <a href="https://github.com/ashleyesau/parking_tickets" target="_blank">github.com/ashleyesau/parking_tickets</a>
 

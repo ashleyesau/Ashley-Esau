@@ -12,7 +12,7 @@ I started in market research data processing, which taught me early that data qu
 
 From there I grew curious about how larger systems work. How data moves from raw inputs to decisions. How companies like Netflix or Spotify make sense of the behaviour happening inside their products. How the infrastructure underneath an analytics layer actually gets built. Each project I take on starts with a question I cannot shake, and ends with a system I understand deeply.
 
-I have worked across retail pipelines, fintech analytics, warehouse modelling on BigQuery, and subscription economics. The domain changes. The discipline does not.
+I have worked across retail pipelines, fintech analytics, change data capture, warehouse modelling on BigQuery, and subscription economics. The domain changes. The discipline does not.
 
 I care about:
 
@@ -33,22 +33,28 @@ I care about:
 - dbt Core (DuckDB and BigQuery adapters)
 - dbt-utils
 
-**Warehouses and Databases**
+**Warehouses, Databases and Table Formats**
 - Google BigQuery
 - BigQuery ML
+- PostgreSQL (logical replication)
+- Apache Iceberg
 - DuckDB
 
 **Orchestration**
 - Apache Airflow
 - Dataform
 
-**Data Quality**
+**Data Quality and Testing**
 - Soda Core
+- dbt tests
+- pytest
 
-**Cloud Infrastructure**
-- Google Cloud Platform (BigQuery, BigQuery ML, Cloud Storage, Dataform)
+**Cloud and Infrastructure as Code**
+- Google Cloud Platform (BigQuery, BigQuery ML, Cloud Storage, Dataform, IAM)
+- Terraform
 
 **Dashboarding and Visualisation**
+- Lightdash
 - Streamlit
 - Plotly
 - Looker Studio
@@ -64,7 +70,85 @@ I care about:
 
 ---
 
-## 1. Fintech Behavioral Analytics Platform
+## 1. Fintech Payments Platform
+
+**Repository:** <a href="https://github.com/ashleyesau/fintech-payments" target="_blank">github.com/ashleyesau/fintech-payments</a>
+
+An end-to-end data pipeline for a South African SME payments and lending business, starting at a Postgres source. A custom change data capture consumer reads the write-ahead log and lands files in Cloud Storage, a Bronze writer turns them into Apache Iceberg tables, BigQuery and dbt build the marts, Lightdash serves the dashboards, and a five-task Airflow DAG chains the steps together. The largest run pushed 8.5 million events through it, and the marts show just over R1 billion in simulated gross payment value. The source data is synthetic. The pipeline is the point.
+
+### Overview
+
+Many small South African businesses have no payslips and no credit history, but most now have a card machine. Every transaction is a trail left behind by something real: how often the shop opens, how it recovers after a slow month. This project follows that trail from the counter to the lender, and builds the infrastructure that catches each transaction, moves it, checks it and turns it into something a lender can read.
+
+The marts cover gross payment value, settlement reconciliation, merchant health, and loan portfolio quality including portfolio at risk and vintage curves.
+
+### Architecture
+
+```
+PostgreSQL 16 (wal_level=logical)
+        |
+Custom CDC consumer
+(pgoutput decoded from a logical replication slot)
+        |
+Google Cloud Storage
+(gzipped NDJSON landing, idempotent, replayable)
+        |
+Bronze writer (PyIceberg)
+(5 Apache Iceberg tables on GCS, partitioned by month)
+        |
+BigQuery external tables
+        |
+dbt: staging, intermediate, marts
+(27 models, 165 schema tests)
+        |
+Lightdash
+(8 dashboards, 32 charts)
+
+Airflow DAG (manual trigger):
+bronze_write > bronze_verify > register_bq > dbt_marts > dbt_test
+```
+
+### Stack
+
+| Layer | Technology |
+| --- | --- |
+| Source | PostgreSQL 16 with logical replication |
+| Change capture | Custom Python consumer decoding pgoutput |
+| Landing | Google Cloud Storage (gzipped NDJSON) |
+| Bronze | Apache Iceberg via PyIceberg |
+| Warehouse | BigQuery (external tables over Iceberg) |
+| Transformations | dbt Core (BigQuery adapter) |
+| Orchestration | Apache Airflow 2.9.3 (LocalExecutor, Docker Compose) |
+| BI | Lightdash Cloud |
+| Infrastructure | Terraform (buckets, service accounts, IAM, datasets) |
+| CI | GitHub Actions (pytest, dbt deps, terraform validate) |
+
+### Engineering Highlights
+
+- Reads changes from the Postgres write-ahead log with SQL-level peek and advance calls on a logical replication slot, rather than the streaming replication protocol. This keeps the consumer simple and needs no replication role.
+- Memory-bounded Iceberg writer built around PyIceberg limits: a two-pass reader with an index of about 12 bytes per event and 100,000-row batches. Peak memory fell from 5.0 GB to roughly 670 MB on an 8.5 million event load. Crash recovery and idempotency are covered by a test suite.
+- Month partitioning across five Bronze tables: 60 data files a year instead of 1,825 with day partitioning, which cuts storage API operations roughly 14 times.
+- A contract-validation step (`bronze.check`) between the Bronze write and BigQuery registration, so a malformed batch stops the pipeline before dbt sees it.
+- A Type 2 slowly changing dimension for merchants, built with LAG window functions over daily snapshots, because a dbt snapshot could not build the correct history. It produces 4,991 history rows for 1,000 merchants.
+- A 30-day rolling payment value model per merchant, rebuilt as a table with an integer day axis after BigQuery materialized views rejected the interval window.
+- Diagnosed a replication slot invalidation during a large backfill (about 11 GB of log against a 3 GB cap) and resized the retention limit from measurement instead of an estimate.
+- Airflow 2.9 and PyIceberg need incompatible SQLAlchemy versions, so the pipeline runs in an isolated virtualenv that each task calls directly.
+- Least-privilege infrastructure in Terraform: a dedicated pipeline-runner service account, and a custom IAM role holding only the single BigQuery connection permission that external table creation needs.
+- 165 dbt schema tests, run by the DAG, plus a pytest suite and a GitHub Actions workflow that runs Postgres 16 with logical decoding.
+
+### Known Limits
+
+Documented in the repo, not hidden:
+
+- The DAG is triggered manually. There is no schedule, no retries and no alerting.
+- The dbt tests run after the marts are built, so a failure stops the run but does not stop bad data reaching Lightdash. Testing each layer before building the next is the fix.
+- The impersonated credentials depend on my own login session, so the pipeline is not unattended yet.
+- CI resolves dbt packages but does not build or test the models against BigQuery.
+- The Iceberg catalog is a local SQLite file rebuilt from a marker in Cloud Storage. That suits one machine and would not survive more.
+
+---
+
+## 2. Fintech Behavioral Analytics Platform
 
 **Repository:** <a href="https://github.com/ashleyesau/fintech-behavioral-analytics" target="_blank">github.com/ashleyesau/fintech-behavioral-analytics</a>
 
@@ -116,7 +200,7 @@ Each layer reads only from the layer directly above it. When something breaks, y
 ### Engineering Highlights
 
 - Cursor-based sync via `/transactions/sync` rather than the deprecated date-based endpoint. The cursor advances only after a successful GCS write, guaranteeing no silent transaction loss on write failures.
-- Two-institution design: Institution A (control, real Plaid Sandbox data) and Institution B (synthetic seed with engineered behavioral contrast: irregular income, high merchant concentration, recurring negative cashflow. This was a deliberate design decision to produce analytically meaningful risk signal.
+- Two-institution design: Institution A (control, real Plaid Sandbox data) and Institution B (synthetic seed with engineered behavioral contrast: irregular income, high merchant concentration, recurring negative cashflow). This was a deliberate design decision to produce analytically meaningful risk signal.
 - Cross-join spine pattern in `int_account_monthly_cashflow` to preserve zero-transaction months, making consecutive cashflow streak calculations correct rather than misleading
 - Gaps-and-islands pattern in `int_customer_risk_signals` for maximum consecutive negative cashflow streak per account
 - Merchant concentration ratio derived from top three merchants by debit spend, combined with cashflow streak into a single `combined_risk_flag`
@@ -137,7 +221,7 @@ Three silent data loss bugs were discovered during the build, none of them obvio
 
 ---
 
-## 2. Retail Medallion Pipeline on BigQuery
+## 3. Retail Medallion Pipeline on BigQuery
 
 **Repository:** <a href="https://github.com/ashleyesau/retail-project" target="_blank">github.com/ashleyesau/retail-project</a>
 
@@ -171,7 +255,7 @@ Raw CSV → Bronze (all-STRING schema) → Silver (cleaned and typed) → Gold (
 
 ---
 
-## 3. Retail Data Pipeline with Modern Data Stack
+## 4. Retail Data Pipeline with Modern Data Stack
 
 **Repository:** <a href="https://github.com/ashleyesau/airflow_project" target="_blank">github.com/ashleyesau/airflow_project</a>
 
@@ -207,7 +291,7 @@ This project demonstrates the ability to design and automate complete analytics 
 
 ---
 
-## 4. SaaS Analytics Warehouse
+## 5. SaaS Analytics Warehouse
 
 **Repository:** <a href="https://github.com/ashleyesau/saas_modeling" target="_blank">github.com/ashleyesau/saas_modeling</a>
 
@@ -251,7 +335,7 @@ This project demonstrates what it takes to build the foundation that makes subsc
 
 ---
 
-## 5. Marketing Analytics Warehouse
+## 6. Marketing Analytics Warehouse
 
 **Repository:** <a href="https://github.com/ashleyesau/marketing_analysis" target="_blank">github.com/ashleyesau/marketing_analysis</a>
 
@@ -293,7 +377,7 @@ Raw CSVs → dbt seed → Staging → Intermediate → Mart Layer → Five-page 
 
 ---
 
-## 6. Fintech Portfolio Analytics
+## 7. Fintech Portfolio Analytics
 
 **Repository:** <a href="https://github.com/ashleyesau/fintech_modeling" target="_blank">github.com/ashleyesau/fintech_modeling</a>
 

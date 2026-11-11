@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ashley Esau — Data Professional & Engineer</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            oatmeal: '#f5f2eb',
+            linen: '#faf8f5',
+            espresso: '#262220',
+            stone: '#665c54',
+            taupe: '#d9d2c9',
+            terracotta: '#b85d33',
+            'terracotta-dark': '#9e4e2a',
+            sage: '#73826d',
+          },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+            mono: ['JetBrains Mono', 'Fira Code', 'monospace'],
+          }
+        }
+      }
+    };
+  </script>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      background-color: #f5f2eb;
+      color: #262220;
+      font-family: 'Inter', sans-serif;
+    }
+  </style>
+</head>
+<body class="bg-oatmeal text-espresso antialiased selection:bg-terracotta selection:text-oatmeal">
+
+  <!-- Toast Notification -->
+  <div id="toast" role="status" aria-live="polite"
+       class="fixed bottom-6 right-6 z-50 transform translate-y-4 opacity-0 pointer-events-none transition-all duration-300 bg-espresso text-oatmeal px-4 py-3 rounded-xl shadow-xl flex items-center gap-3 border border-taupe/30">
+    <svg class="w-5 h-5 text-sage" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+    </svg>
+    <span id="toast-message" class="text-sm font-mono"></span>
+  </div>
+
+  <!-- Header / Navigation -->
+  <header class="sticky top-0 z-40 bg-oatmeal/90 backdrop-blur-md border-b border-taupe">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+      <a href="#" class="font-mono font-semibold text-espresso text-base sm:text-lg tracking-tight hover:text-terracotta transition-colors">
+        ashley_esau<span class="text-terracotta">.</span>dev
+      </a>
+
+      <nav class="hidden md:flex items-center gap-8 font-mono text-xs uppercase tracking-wider text-stone">
+        <a href="#about" class="hover:text-espresso transition-colors">About</a>
+        <a href="#projects" class="hover:text-espresso transition-colors">Projects</a>
+        <a href="#stack" class="hover:text-espresso transition-colors">Stack</a>
+        <a href="#philosophy" class="hover:text-espresso transition-colors">Philosophy</a>
+        <a href="#contact" class="hover:text-espresso transition-colors">Contact</a>
+      </nav>
+
+      <div class="flex items-center gap-3">
+        <button id="copy-html-btn" type="button"
+                class="hidden sm:inline-flex items-center gap-1.5 font-mono text-xs px-3.5 py-2 rounded-lg bg-linen border border-taupe text-espresso hover:border-terracotta hover:text-terracotta transition-colors shadow-sm">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-2M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
+          </svg>
+          <span>Copy index.html</span>
+        </button>
+
+        <button id="mobile-menu-btn" type="button" aria-label="Toggle navigation menu"
+                class="md:hidden p-2 rounded-lg bg-linen border border-taupe text-espresso">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Dropdown Menu -->
+    <div id="mobile-menu" class="hidden md:hidden bg-linen border-b border-taupe px-6 py-4 space-y-3 font-mono text-xs uppercase tracking-wider">
+      <a href="#about" class="block text-stone hover:text-espresso py-1">About</a>
+      <a href="#projects" class="block text-stone hover:text-espresso py-1">Projects</a>
+      <a href="#stack" class="block text-stone hover:text-espresso py-1">Stack</a>
+      <a href="#philosophy" class="block text-stone hover:text-espresso py-1">Philosophy</a>
+      <a href="#contact" class="block text-stone hover:text-espresso py-1">Contact</a>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section id="about" class="max-w-6xl mx-auto px-4 sm:px-6 pt-16 sm:pt-24 pb-16">
+    <div class="max-w-3xl">
+      <div class="inline-flex items-center gap-2 font-mono text-xs text-sage bg-linen border border-taupe px-3 py-1.5 rounded-full mb-6">
+        <span class="w-2 h-2 rounded-full bg-terracotta animate-pulse"></span>
+        <span>Data Professional &bull; Systems Builder</span>
+      </div>
+
+      <h1 class="text-4xl sm:text-6xl font-bold tracking-tight text-espresso mb-6">
+        Ashley Esau
+      </h1>
+
+      <p class="text-lg sm:text-xl text-stone font-normal leading-relaxed mb-6">
+        Hi, I am a data professional who builds production-style data systems. I started in market research data processing, which taught me early that data quality is not a technical concern. It is a business one.
+      </p>
+
+      <p class="text-base text-stone leading-relaxed mb-8">
+        From there I grew curious about how larger systems work. How data moves from raw inputs to decisions. I have worked across retail pipelines, fintech analytics, change data capture, warehouse modelling on BigQuery, and subscription economics. The domain changes. The discipline does not.
+      </p>
+
+      <div class="flex flex-wrap items-center gap-4">
+        <a href="#projects" class="font-mono text-xs px-5 py-3 rounded-xl bg-terracotta hover:bg-terracotta-dark text-oatmeal font-medium transition-colors shadow-sm">
+          Explore Projects &rarr;
+        </a>
+        <a href="https://github.com/ashleyesau" target="_blank" rel="noopener noreferrer"
+           class="font-mono text-xs px-5 py-3 rounded-xl bg-linen border border-taupe text-espresso hover:border-terracotta hover:text-terracotta transition-colors shadow-sm inline-flex items-center gap-2">
+          <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/>
+          </svg>
+          <span>GitHub Profile</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Projects Section -->
+  <section id="projects" class="max-w-6xl mx-auto px-4 sm:px-6 py-16 border-t border-taupe">
+    <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-10">
+      <div>
+        <div class="font-mono text-xs uppercase tracking-wider text-sage mb-1">Portfolio</div>
+        <h2 class="text-2xl sm:text-3xl font-bold text-espresso">Featured Projects</h2>
+      </div>
+      <div class="font-mono text-xs text-stone">Production-grade data pipelines &amp; analytics engineering</div>
+    </div>
+
+    <div class="grid grid-cols-1 gap-6">
+      
+      <!-- Project 1: Fintech Payments Platform -->
+      <article class="group bg-linen border border-taupe hover:border-terracotta/60 rounded-2xl overflow-hidden transition-all duration-200">
+        <div class="h-1.5 w-full bg-gradient-to-r from-terracotta via-sage to-taupe"></div>
+        <div class="p-6 sm:p-8">
+          <div class="flex flex-col sm:flex-row sm:items-start justify-between gap-4 mb-4">
+            <div>
+              <div class="inline-flex items-center gap-2 font-mono text-xs text-sage mb-2">
+                <span class="w-1.5 h-1.5 rounded-full bg-terracotta"></span>
+                <span>01 // PAYMENTS INFRASTRUCTURE &amp; LEDGER PIPELINE</span>
+              </div>
+              <h3 class="text-xl sm:text-2xl font-semibold text-espresso group-hover:text-terracotta transition-colors">
+                Fintech Payments Platform
+              </h3>
+              <div class="font-mono text-xs text-stone mt-1">github.com/ashleyesau/fintech-payments</div>
+            </div>
+            <a href="https://github.com/ashleyesau/fintech-payments" target="_blank" rel="noopener noreferrer"
+               class="inline-flex items-center gap-1.5 font-mono text-xs px-3.5 py-2 rounded-lg bg-terracotta hover:bg-terracotta-dark text-oatmeal transition-colors self-start">
+              <span>View Repository</span>
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M7 17L17 7M7 7h10v10" />
+              </svg>
+            </a>
+          </div>
+
+          <p class="text-stone text-sm sm:text-base leading-relaxed mb-6 max-w-3xl">
+            An end-to-end data pipeline for a South African SME payments and lending business, starting at a Postgres source. Custom Python CDC consumer reads write-ahead logs, lands files in GCS, PyIceberg builds Apache Iceberg tables, BigQuery and dbt build the marts, Lightdash serves dashboards, and Airflow chains the steps. 8.5 million events processed, showing over R1 billion in simulated GPV.
+          </p>
+
+          <div class="bg-oatmeal border border-taupe rounded-xl p-4 mb-6 overflow-x-auto">
+            <div class="font-mono text-[11px] uppercase tracking-wider text-stone mb-2.5">Pipeline Architecture</div>
+            <div class="flex items-center gap-2 min-w-max font-mono text-xs text-espresso">
+              <span class="px-2.5 py-1.5 rounded-lg bg-linen border border-taupe">PostgreSQL 16 (Logical Replication)</span>
+              <span class="text-terracotta">&rarr;</span>
+              <span class="px-2.5 py-1.5 rounded-lg bg-linen border border-taupe">Custom Python CDC</span>
+              <span class="text-terracotta">&rarr;</span>
+              <span class="px-2.5 py-1.5 rounded-lg bg-linen border border-taupe">GCS Landing</span>
+              <span class="text-terracotta">&rarr;</span>
+              <span class="px-2.5 py-1.5 rounded-lg bg-linen border border-taupe">PyIceberg (5 Tables)</span>
+              <span class="text-terracotta">&rarr;</span>
+              <span class="px-2.5 py-1.5 rounded-lg bg-linen border border-taupe">BigQuery / dbt (27 models)</span>
+              <span class="text-terracotta">&rarr;</span>
+              <span class="px-2.5 py-1.5 rounded-lg bg-sage/15 border border-sage/40 text-sage font-medium">Lightdash</span>
+            </div>
+          </div>
+
+          <div class="flex flex-wrap gap-2">
+            <span class="font-mono text-xs px-2.5 py-1 rounded-md bg-oatmeal border border-taupe text-espresso">PostgreSQL</span>
+            <span class="font-mono text-xs px-2.5 py-1 rounded-md bg-oatmeal border border-taupe text-espresso">Python</span>
+            <span class="font-mono text-xs px-2.5 py-1 rounded-md bg-oatmeal border border-taupe text-espresso">Apache Iceberg</span>
+            <span class="font-mono text-xs px-2.5 py-1 rounded-md bg-oatmeal border border-taupe text-espresso">BigQuery</span>
+            <span class="font-mono text-xs px-2.5 py-1 rounded-md bg-oatmeal border border-taupe text-espresso">dbt Core</span>
+            <span class="font-mono text-xs px-2.5 py-1 rounded-md bg-oatmeal border border-taupe text-espresso">Airflow</span>
+            <span class="font-mono text-xs px-2.5 py-1 rounded-md bg-oatmeal border border-taupe text-espresso">Lightdash</span>
+            <span class="font-mono text-xs px-2.5 py-1 rounded-md bg-oatmeal border border-taupe text-espresso">Terraform</span>
+          </div>
+        </div>
+      </article>
+
+      <!-- Project 2: Fintech Behavioral Analytics Platform -->
+      <article class="group bg-linen border border-taupe hover:border-terracotta/60 rounded-2xl p-6 sm:p-8 transition-all duration-200">
+        <div class="flex flex-col sm:flex-row sm:items-start justify-between gap-4 mb-4">
+          <div>
+            <div class="inline-flex items-center gap-2 font-mono text-xs text-sage mb-2">
+              <span class="w-1.5 h-1.5 rounded-full bg-sage"></span>
+              <span>02 // FINTECH ANALYTICS ENGINE</span>
+            </div>
+            <h3 class="text-xl sm:text-2xl font-semibold text-espresso group-hover:text-terracotta transition-colors">
+              Fintech Behavioral Analytics Platform
+            </h3>
+            <div class="font-mono text-xs text-stone mt-1">github.com/ashleyesau/fintech-behavioral-analytics</div>
+          </div>
+          <a href="https://github.com/ashleyesau/fintech-behavioral-analytics" target="_blank" rel="noopener noreferrer"
+             class="inline-flex items-center gap-1.5 font-mono text-xs px-3.5 py-2 rounded-lg bg-terracotta hover:bg-terracotta-dark text-oatmeal transition-colors self-start">
+            <span>View Repository</span>
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M7 17L17 7M7 7h10v10" />
+            </svg>
+          </a>
+        </div>
+        <p class="text-stone text-sm sm:text-base leading-relaxed mb-6 max-w-3xl">
+          Full-stack analytics engineering project simulating an internal fintech data platform. Live API ingestion from Plaid Sandbox across two institutions, GCS raw storage, BigQuery warehouse, 10-model layered dbt transformation architecture, 81 automated tests, and daily Airflow orchestration. Identifies high-risk behavioral patterns (merchant concentration + consecutive negative cashflow).
+        </p>
+        <div class="flex flex-wrap gap-2">
+          <span class="font-mono text-xs px-2.5 py-1 rounded-md bg-oatmeal border border-taupe text-espresso">Plaid API</span>
+          <span class="font-mono text-xs px-2.5 py-1 rounded-md bg-oatmeal border border-taupe text-espresso">Python</span>
+          <span class="font-mono text-xs px-2.5 py-1 rounded-md bg-oatmeal border border-taupe text-espresso">BigQuery</span>
+          <span class="font-mono text-xs px-2.5 py-1 rounded-md bg-oatmeal border border-taupe text-espresso">dbt</span>
+          <span class="font-mono text-xs px-2.5 py-1 rounded-md bg-oatmeal border border-taupe text-espresso">Airflow</span>
+          <span class="font-mono text-xs px-2.5 py-1 rounded-md bg-oatmeal border border-taupe text-espresso">Docker</span>
+        </div>
+      </article>
+
+      <!-- Project 3: Retail Medallion Pipeline on BigQuery -->
+      <article class="group bg-linen border border-taupe hover:border-terracotta/60 rounded-2xl p-6 sm:p-8 transition-all duration-200">
+        <div class="flex flex-col sm:flex-row sm:items-start justify-between gap-4 mb-4">
+          <div>
+            <div class="inline-flex items-center gap-2 font-mono text-xs text-sage mb-2">
+              <span class="w-1.5 h-1.5 rounded-full bg-sage"></span>
+              <span>03 // RETAIL MEDALLION PIPELINE</span>
+            </div>
+            <h3 class="text-xl sm:text-2xl font-semibold text-espresso group-hover:text-terracotta transition-colors">
+              Retail Medallion Pipeline on BigQuery
+            </h3>
+            <div class="font-mono text-xs text-stone mt-1">github.com/ashleyesau/retail-project</div>
+          </div>
+          <a href="https://github.com/ashleyesau/retail-project" target="_blank" rel="noopener noreferrer"
+             class="inline-flex items-center gap-1.5 font-mono text-xs px-3.5 py-2 rounded-lg bg-terracotta hover:bg-terracotta-dark text-oatmeal transition-colors self-start">
+            <span>View Repository</span>
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M7 17L17 7M7 7h10v10" />
+            </svg>
+          </a>
+        </div>
+        <p class="text-stone text-sm sm:text-base leading-relaxed mb-6 max-w-3xl">
+          Bronze-Silver-Gold pipeline in BigQuery taking 10,000 raw retail transactions through profiling, cleaning, customer segmentation with BigQuery ML (k-means), and orchestration with Dataform.
+        </p>
+        <div class="flex flex-wrap gap-2">
+          <span class="font-mono text-xs px-2.5 py-1 rounded-md bg-oatmeal border border-taupe text-espresso">BigQuery</span>
+          <span class="font-mono text-xs px-2.5 py-1 rounded-md bg-oatmeal border border-taupe text-espresso">BigQuery ML</span>
+          <span class="font-mono text-xs px-2.5 py-1 rounded-md bg-oatmeal border border-taupe text-espresso">Dataform</span>
+          <span class="font-mono text-xs px-2.5 py-1 rounded-md bg-oatmeal border border-taupe text-espresso">SQL</span>
+        </div>
+      </article>
+
+      <!-- Project 4: Retail Data Pipeline with Modern Data Stack -->
+      <article class="group bg-linen border border-taupe hover:border-terracotta/60 rounded-2xl p-6 sm:p-8 transition-all duration-200">
+        <div class="flex flex-col sm:flex-row sm:items-start justify-between gap-4 mb-4">
+          <div>
+            <div class="inline-flex items-center gap-2 font-mono text-xs text-sage mb-2">
+              <span class="w-1.5 h-1.5 rounded-full bg-sage"></span>
+              <span>04 // RETAIL ELT ORCHESTRATION</span>
+            </div>
+            <h3 class="text-xl sm:text-2xl font-semibold text-espresso group-hover:text-terracotta transition-colors">
+              Retail Data Pipeline with Modern Data Stack
+            </h3>
+            <div class="font-mono text-xs text-stone mt-1">github.com/ashleyesau/airflow_project</div>
+          </div>
+          <a href="https://github.com/ashleyesau/airflow_project" target="_blank" rel="noopener noreferrer"
+             class="inline-flex items-center gap-1.5 font-mono text-xs px-3.5 py-2 rounded-lg bg-terracotta hover:bg-terracotta-dark text-oatmeal transition-colors self-start">
+            <span>View Repository</span>
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M7 17L17 7M7 7h10v10" />
+            </svg>
+          </a>
+        </div>
+        <p class="text-stone text-sm sm:text-base leading-relaxed mb-6 max-w-3xl">
+          Fully orchestrated ELT pipeline processing over 540,000 retail transactions. Star schema with 3 dimensions and 1 fact table, 20+ automated data quality checks via Soda Core, containerized in Docker, and visualized in Metabase.
+        </p>
+        <div class="flex flex-wrap gap-2">
+          <span class="font-mono text-xs px-2.5 py-1 rounded-md bg-oatmeal border border-taupe text-espresso">Apache Airflow</span>
+          <span class="font-mono text-xs px-2.5 py-1 rounded-md bg-oatmeal border border-taupe text-espresso">BigQuery</span>
+          <span class="font-mono text-xs px-2.5 py-1 rounded-md bg-oatmeal border border-taupe text-espresso">Soda Core</span>
+          <span class="font-mono text-xs px-2.5 py-1 rounded-md bg-oatmeal border border-taupe text-espresso">dbt</span>
+          <span class="font-mono text-xs px-2.5 py-1 rounded-md bg-oatmeal border border-taupe text-espresso">Metabase</span>
+        </div>
+      </article>
+
+      <!-- Project 5: SaaS Analytics Warehouse -->
+      <article class="group bg-linen border border-taupe hover:border-terracotta/60 rounded-2xl p-6 sm:p-8 transition-all duration-200">
+        <div class="flex flex-col sm:flex-row sm:items-start justify-between gap-4 mb-4">
+          <div>
+            <div class="inline-flex items-center gap-2 font-mono text-xs text-sage mb-2">
+              <span class="w-1.5 h-1.5 rounded-full bg-sage"></span>
+              <span>05 // SAAS SUBSCRIPTION ECONOMICS</span>
+            </div>
+            <h3 class="text-xl sm:text-2xl font-semibold text-espresso group-hover:text-terracotta transition-colors">
+              SaaS Analytics Warehouse
+            </h3>
+            <div class="font-mono text-xs text-stone mt-1">github.com/ashleyesau/saas_modeling</div>
+          </div>
+          <div class="flex flex-wrap items-center gap-2 self-start">
+            <a href="https://saasmodeling-klogjaq7u6jsgczkzsdtwp.streamlit.app/" target="_blank" rel="noopener noreferrer"
+               class="inline-flex items-center gap-1.5 font-mono text-xs px-3.5 py-2 rounded-lg bg-linen border border-taupe text-espresso hover:border-sage hover:text-sage transition-colors">
+              <span>Live Dashboard</span>
+            </a>
+            <a href="https://github.com/ashleyesau/saas_modeling" target="_blank" rel="noopener noreferrer"
+               class="inline-flex items-center gap-1.5 font-mono text-xs px-3.5 py-2 rounded-lg bg-terracotta hover:bg-terracotta-dark text-oatmeal transition-colors">
+              <span>View Repository</span>
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M7 17L17 7M7 7h10v10" />
+              </svg>
+            </a>
+          </div>
+        </div>
+        <p class="text-stone text-sm sm:text-base leading-relaxed mb-6 max-w-3xl">
+          Full subscription lifecycle analytics system built with DuckDB, dbt, and Streamlit. Models subscription economics across 2 years, featuring full MRR revenue bridge, churn prediction, cohort retention by plan tier, and 40 dbt tests.
+        </p>
+        <div class="flex flex-wrap gap-2">
+          <span class="font-mono text-xs px-2.5 py-1 rounded-md bg-oatmeal border border-taupe text-espresso">DuckDB</span>
+          <span class="font-mono text-xs px-2.5 py-1 rounded-md bg-oatmeal border border-taupe text-espresso">dbt Core</span>
+          <span class="font-mono text-xs px-2.5 py-1 rounded-md bg-oatmeal border border-taupe text-espresso">Streamlit</span>
+          <span class="font-mono text-xs px-2.5 py-1 rounded-md bg-oatmeal border border-taupe text-espresso">Plotly</span>
+        </div>
+      </article>
+
+      <!-- Project 6: Marketing Analytics Warehouse -->
+      <article class="group bg-linen border border-taupe hover:border-terracotta/60 rounded-2xl p-6 sm:p-8 transition-all duration-200">
+        <div class="flex flex-col sm:flex-row sm:items-start justify-between gap-4 mb-4">
+          <div>
+            <div class="inline-flex items-center gap-2 font-mono text-xs text-sage mb-2">
+              <span class="w-1.5 h-1.5 rounded-full bg-sage"></span>
+              <span>06 // MARKETING &amp; FUNNEL ANALYTICS</span>
+            </div>
+            <h3 class="text-xl sm:text-2xl font-semibold text-espresso group-hover:text-terracotta transition-colors">
+              Marketing Analytics Warehouse
+            </h3>
+            <div class="font-mono text-xs text-stone mt-1">github.com/ashleyesau/marketing_analysis</div>
+          </div>
+          <div class="flex flex-wrap items-center gap-2 self-start">
+            <a href="https://marketinganalysis-nxmm6e4ytzj8mxcfjxkm5f.streamlit.app/" target="_blank" rel="noopener noreferrer"
+               class="inline-flex items-center gap-1.5 font-mono text-xs px-3.5 py-2 rounded-lg bg-linen border border-taupe text-espresso hover:border-sage hover:text-sage transition-colors">
+              <span>Live Dashboard</span>
+            </a>
+            <a href="https://github.com/ashleyesau/marketing_analysis" target="_blank" rel="noopener noreferrer"
+               class="inline-flex items-center gap-1.5 font-mono text-xs px-3.5 py-2 rounded-lg bg-terracotta hover:bg-terracotta-dark text-oatmeal transition-colors">
+              <span>View Repository</span>
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M7 17L17 7M7 7h10v10" />
+              </svg>
+            </a>
+          </div>
+        </div>
+        <p class="text-stone text-sm sm:text-base leading-relaxed mb-6 max-w-3xl">
+          End-to-end analytics engineering project modeling customer segmentation, funnel analysis, product performance, and cohort retention on 2 million synthetic e-commerce events with 5-page Streamlit dashboard.
+        </p>
+        <div class="flex flex-wrap gap-2">
+          <span class="font-mono text-xs px-2.5 py-1 rounded-md bg-oatmeal border border-taupe text-espresso">dbt</span>
+          <span class="font-mono text-xs px-2.5 py-1 rounded-md bg-oatmeal border border-taupe text-espresso">Streamlit</span>
+          <span class="font-mono text-xs px-2.5 py-1 rounded-md bg-oatmeal border border-taupe text-espresso">SQL</span>
+        </div>
+      </article>
+
+      <!-- Project 7: Fintech Portfolio Analytics -->
+      <article class="group bg-linen border border-taupe hover:border-terracotta/60 rounded-2xl p-6 sm:p-8 transition-all duration-200">
+        <div class="flex flex-col sm:flex-row sm:items-start justify-between gap-4 mb-4">
+          <div>
+            <div class="inline-flex items-center gap-2 font-mono text-xs text-sage mb-2">
+              <span class="w-1.5 h-1.5 rounded-full bg-sage"></span>
+              <span>07 // FINTECH PORTFOLIO &amp; RISK</span>
+            </div>
+            <h3 class="text-xl sm:text-2xl font-semibold text-espresso group-hover:text-terracotta transition-colors">
+              Fintech Portfolio Analytics
+            </h3>
+            <div class="font-mono text-xs text-stone mt-1">github.com/ashleyesau/fintech_modeling</div>
+          </div>
+          <div class="flex flex-wrap items-center gap-2 self-start">
+            <a href="https://fintechmodeling-pybu29dx7xvnq3um9fjmnu.streamlit.app/" target="_blank" rel="noopener noreferrer"
+               class="inline-flex items-center gap-1.5 font-mono text-xs px-3.5 py-2 rounded-lg bg-linen border border-taupe text-espresso hover:border-sage hover:text-sage transition-colors">
+              <span>Live Dashboard</span>
+            </a>
+            <a href="https://github.com/ashleyesau/fintech_modeling" target="_blank" rel="noopener noreferrer"
+               class="inline-flex items-center gap-1.5 font-mono text-xs px-3.5 py-2 rounded-lg bg-terracotta hover:bg-terracotta-dark text-oatmeal transition-colors">
+              <span>View Repository</span>
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M7 17L17 7M7 7h10v10" />
+              </svg>
+            </a>
+          </div>
+        </div>
+        <p class="text-stone text-sm sm:text-base leading-relaxed mb-6 max-w-3xl">
+          Simulated fintech analytics system modeling savings, checking, credit, and investment products. Features wealth concentration, risk segmentation, decile analysis, Gini coefficient, and Lorenz curve modeling.
+        </p>
+        <div class="flex flex-wrap gap-2">
+          <span class="font-mono text-xs px-2.5 py-1 rounded-md bg-oatmeal border border-taupe text-espresso">dbt</span>
+          <span class="font-mono text-xs px-2.5 py-1 rounded-md bg-oatmeal border border-taupe text-espresso">DuckDB</span>
+          <span class="font-mono text-xs px-2.5 py-1 rounded-md bg-oatmeal border border-taupe text-espresso">Streamlit</span>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- Core Stack Section -->
+  <section id="stack" class="max-w-6xl mx-auto px-4 sm:px-6 py-16 border-t border-taupe">
+    <div class="max-w-3xl mb-10">
+      <div class="font-mono text-xs uppercase tracking-wider text-sage mb-1">Capabilities</div>
+      <h2 class="text-2xl sm:text-3xl font-bold text-espresso">Core Stack</h2>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div class="bg-linen border border-taupe rounded-2xl p-6">
+        <div class="font-mono text-xs text-terracotta uppercase tracking-wider mb-3">Languages &amp; Transformation</div>
+        <ul class="space-y-2 text-sm text-espresso font-mono">
+          <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-sage"></span>Python &amp; SQL</li>
+          <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-sage"></span>dbt Core (DuckDB &amp; BigQuery)</li>
+          <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-sage"></span>dbt-utils</li>
+        </ul>
+      </div>
+
+      <div class="bg-linen border border-taupe rounded-2xl p-6">
+        <div class="font-mono text-xs text-terracotta uppercase tracking-wider mb-3">Warehouses &amp; Formats</div>
+        <ul class="space-y-2 text-sm text-espresso font-mono">
+          <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-sage"></span>Google BigQuery &amp; ML</li>
+          <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-sage"></span>Apache Iceberg &amp; DuckDB</li>
+          <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-sage"></span>PostgreSQL (Logical Replication)</li>
+        </ul>
+      </div>
+
+      <div class="bg-linen border border-taupe rounded-2xl p-6">
+        <div class="font-mono text-xs text-terracotta uppercase tracking-wider mb-3">Orchestration &amp; Quality</div>
+        <ul class="space-y-2 text-sm text-espresso font-mono">
+          <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-sage"></span>Apache Airflow</li>
+          <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-sage"></span>Dataform &amp; Soda Core</li>
+          <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-sage"></span>pytest &amp; dbt tests</li>
+        </ul>
+      </div>
+
+      <div class="bg-linen border border-taupe rounded-2xl p-6">
+        <div class="font-mono text-xs text-terracotta uppercase tracking-wider mb-3">Cloud &amp; Infrastructure</div>
+        <ul class="space-y-2 text-sm text-espresso font-mono">
+          <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-sage"></span>Google Cloud Platform (IAM, GCS)</li>
+          <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-sage"></span>Terraform (IaC)</li>
+          <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-sage"></span>Docker &amp; GitHub Actions</li>
+        </ul>
+      </div>
+
+      <div class="bg-linen border border-taupe rounded-2xl p-6 sm:col-span-2 lg:col-span-2">
+        <div class="font-mono text-xs text-terracotta uppercase tracking-wider mb-3">Visualization &amp; BI</div>
+        <ul class="grid grid-cols-2 gap-2 text-sm text-espresso font-mono">
+          <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-sage"></span>Streamlit</li>
+          <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-sage"></span>Lightdash</li>
+          <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-sage"></span>Plotly &amp; Metabase</li>
+          <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-sage"></span>Looker Studio</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Engineering Philosophy Section -->
+  <section id="philosophy" class="max-w-6xl mx-auto px-4 sm:px-6 py-16 border-t border-taupe">
+    <div class="bg-linen border border-taupe rounded-3xl p-8 sm:p-12">
+      <div class="font-mono text-xs uppercase tracking-wider text-sage mb-2">Engineering Philosophy</div>
+      <h2 class="text-2xl sm:text-3xl font-bold text-espresso mb-6">Building systems that remain invisible.</h2>
+      
+      <p class="text-stone text-base leading-relaxed mb-6">
+        I am drawn to working on the systems others can depend on without thinking about them. When the infrastructure works, it is invisible &mdash; analysts explore trends instead of fixing broken joins, dashboards are trusted instead of questioned, decisions get made on time. The only moment infrastructure gets attention is when it breaks. That is the responsibility I have learned to embrace: building systems so reliable that part of their success is measured by how invisible they remain.
+      </p>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-8 font-mono text-xs text-espresso">
+        <div class="bg-oatmeal border border-taupe rounded-xl p-4">
+          <span class="text-terracotta block mb-1">01</span>
+          Designing with intention and explicit assumptions
+        </div>
+        <div class="bg-oatmeal border border-taupe rounded-xl p-4">
+          <span class="text-terracotta block mb-1">02</span>
+          Automated validation and testing at every layer
+        </div>
+        <div class="bg-oatmeal border border-taupe rounded-xl p-4">
+          <span class="text-terracotta block mb-1">03</span>
+          Documenting trade-offs and durable design
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section id="contact" class="max-w-6xl mx-auto px-4 sm:px-6 py-16 border-t border-taupe">
+    <div class="bg-linen border border-taupe rounded-3xl p-8 sm:p-12 flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
+      <div>
+        <div class="font-mono text-xs uppercase tracking-wider text-sage mb-2">Connect</div>
+        <h2 class="text-2xl sm:text-3xl font-bold text-espresso mb-3">Let's talk about data engineering and fintech platforms.</h2>
+        <p class="text-stone text-sm sm:text-base max-w-xl">
+          Open to conversations about data engineering, fintech platforms, and building resilient data systems.
+        </p>
+      </div>
+
+      <div class="flex flex-wrap items-center gap-3 w-full md:w-auto">
+        <button id="copy-email-btn" data-email="ashley.esau@gmail.com" type="button"
+                class="flex-1 md:flex-none font-mono text-xs px-5 py-3 rounded-xl bg-terracotta hover:bg-terracotta-dark text-oatmeal font-medium transition-colors shadow-sm inline-flex items-center justify-center gap-2">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+          </svg>
+          <span>Copy Email</span>
+        </button>
+
+        <a href="https://linkedin.com/in/ashley-esau" target="_blank" rel="noopener noreferrer"
+           class="flex-1 md:flex-none font-mono text-xs px-5 py-3 rounded-xl bg-oatmeal border border-taupe text-espresso hover:border-sage hover:text-sage font-medium transition-colors shadow-sm inline-flex items-center justify-center gap-2">
+          <span>LinkedIn</span>
+        </a>
+
+        <a href="https://github.com/ashleyesau" target="_blank" rel="noopener noreferrer"
+           class="flex-1 md:flex-none font-mono text-xs px-5 py-3 rounded-xl bg-oatmeal border border-taupe text-espresso hover:border-sage hover:text-sage font-medium transition-colors shadow-sm inline-flex items-center justify-center gap-2">
+          <span>GitHub</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="max-w-6xl mx-auto px-4 sm:px-6 py-8 border-t border-taupe flex flex-col sm:flex-row items-center justify-between gap-4 font-mono text-xs text-stone">
+    <div>&copy; <span id="year"></span> Ashley Esau. All rights reserved.</div>
+    <div class="flex items-center gap-6">
+      <a href="https://github.com/ashleyesau/Ashley-Esau" target="_blank" rel="noopener noreferrer" class="hover:text-espresso transition-colors">Repository Source</a>
+      <a href="#about" class="hover:text-espresso transition-colors">Back to top &uarr;</a>
+    </div>
+  </footer>
+
+  <!-- JavaScript -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const yearEl = document.getElementById('year');
+      if (yearEl) yearEl.textContent = new Date().getFullYear();
+
+      const copyHtmlBtn = document.getElementById('copy-html-btn');
+      if (copyHtmlBtn && window.location.hostname.endsWith('github.io')) {
+        copyHtmlBtn.classList.add('hidden');
+      }
+
+      const mobileBtn = document.getElementById('mobile-menu-btn');
+      const mobileMenu = document.getElementById('mobile-menu');
+      if (mobileBtn && mobileMenu) {
+        mobileBtn.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+        mobileMenu.querySelectorAll('a').forEach(link => {
+          link.addEventListener('click', () => mobileMenu.classList.add('hidden'));
+        });
+      }
+
+      const toast = document.getElementById('toast');
+      const toastMessage = document.getElementById('toast-message');
+      let toastTimeout;
+
+      function showToast(message) {
+        if (!toast || !toastMessage) return;
+        toastMessage.textContent = message;
+        toast.classList.remove('translate-y-4', 'opacity-0', 'pointer-events-none');
+        clearTimeout(toastTimeout);
+        toastTimeout = setTimeout(() => {
+          toast.classList.add('translate-y-4', 'opacity-0', 'pointer-events-none');
+        }, 3000);
+      }
+
+      function copyTextToClipboard(text, successMsg) {
+        const textArea = document.createElement('textarea');
+        textArea.value = text;
+        textArea.style.position = 'fixed';
+        textArea.style.left = '-9999px';
+        document.body.appendChild(textArea);
+        textArea.select();
+        try {
+          document.execCommand('copy');
+          showToast(successMsg);
+        } catch (err) {
+          showToast('Unable to copy automatically');
+        }
+        document.body.removeChild(textArea);
+      }
+
+      const copyEmailBtn = document.getElementById('copy-email-btn');
+      if (copyEmailBtn) {
+        copyEmailBtn.addEventListener('click', () => {
+          const email = copyEmailBtn.getAttribute('data-email') || 'ashley.esau@gmail.com';
+          copyTextToClipboard(email, `Copied ${email}`);
+        });
+      }
+
+      if (copyHtmlBtn) {
+        copyHtmlBtn.addEventListener('click', () => {
+          const fullHtml = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
+          copyTextToClipboard(fullHtml, 'Copied complete index.html source');
+        });
+      }
+    });
+  </script>
+</body>
+</html>
